@@ -5,6 +5,9 @@
   <meta charset="utf-8">
   <title>sviik test site</title>
 
+  <script src="//api.beta.salemove.com/salemove_integration.js"></script>
+  <script src="index.js"></script>
+
   <style>
     body {
       background-color: #F9F6EE;
@@ -12,35 +15,65 @@
       font-family: 'Roboto', sans-serif;
       font-size: 16px;
     }
-    .container {
-      height: 100%;
+    h1 {
+      font-size: 32px;
     }
-    .center {
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
+    input {
+      width: 150px;
+      padding-top: 5px;
+    }
+    button {
+      width: 150px;
+    }
+    label {
+      padding-top: 5px;
+    }
+    .label {
+      
+    }
+    .uuid {
+      color: #800000;
+      font-weight: 900;
+    }
+    .content {
+      margin-left: 5%;
+      margin-top: 5%;
+      height: 100%;
     }
   </style>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <div class="center">
-      <!-- <img src="./images/sviik.jpg" class="center"> -->
-      <form>
-        <label for="normal">Normal:</label><br>
-        <input type="text" id="normal" name="normal" value=""><br>
-        <label for="masked">Masked:</label><br>
-        <input type="text" id="masked" class="sm_cobrowsing_masked_field" name="masked" value=""><br>
-        <label for="disabled">Disabled:</label><br>
-        <input type="text" id="disabled" class="sm_cobrowsing_disabled_field" name="disabled" value=""><br>
-      </form> 
+  <div class="content">
+    <h1>Info</h1>
+    <div>
+      <table id="info">
+        <tr>
+          <td class="label">Visitor ID</td>
+          <td class="uuid" id="visitorId"></td>
+        </tr>
+        <tr>
+          <td class="label">Site ID</td>
+          <td class="uuid" id="siteId"></td>
+        </tr>
+        <tr>
+          <td class="label">Engagement ID</td>
+          <td class="uuid" id="engagementId"></td>
+        </tr>
+      </table>
     </div>
+    <h1>Inputs</h1>
+    <form>
+      <label for="normal">Normal:</label><br>
+      <input type="text" id="normal" name="normal" value=""><br>
+      <label for="masked">Masked:</label><br>
+      <input type="text" id="masked" class="sm_cobrowsing_masked_field" name="masked" value=""><br>
+      <label for="disabled">Disabled:</label><br>
+      <input type="text" id="disabled" class="sm_cobrowsing_disabled_field" name="disabled" value=""><br>
+    </form>
+    <h1>Cobrowsing code</h1>
+    <button onclick="document.body.appendChild(document.createElement('sm-visitor-code'))">Show</button>
   </div>
-  <script async src="//api.beta.salemove.com/salemove_integration.js"></script>
 </body>
 </html>
