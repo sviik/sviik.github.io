@@ -3,13 +3,18 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Sviik test site</title>
+  <title>sviik test site</title>
 
   <style>
+    body {
+      background-color: #F9F6EE;
+      color: #060911;
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+    }
     .container {
       height: 100%;
     }
-
     .center {
       margin: 0;
       position: absolute;
@@ -19,11 +24,21 @@
       transform: translate(-50%, -50%);
     }
   </style>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <div class="center">
-      <img src="./images/sviik.jpg" class="center">
+      <!-- <img src="./images/sviik.jpg" class="center"> -->
+      <form>
+        <label for="normal">Normal:</label><br>
+        <input type="text" id="normal" name="normal" value=""><br>
+        <label for="masked">Masked:</label><br>
+        <input type="text" id="masked" class="sm_cobrowsing_masked_field" name="masked" value=""><br>
+        <label for="disabled">Disabled:</label><br>
+        <input type="text" id="disabled" class="sm_cobrowsing_disabled_field" name="disabled" value=""><br>
+      </form> 
     </div>
   </div>
   <script async src="//api.beta.salemove.com/salemove_integration.js"></script>
