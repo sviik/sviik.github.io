@@ -15,22 +15,21 @@
 <body>
   <div class="content">
     <h1>Info</h1>
-    <div>
-      <table id="info">
-        <tr>
-          <td class="label">Visitor ID</td>
-          <td class="uuid" id="visitorId"></td>
-        </tr>
-        <tr>
-          <td class="label">Site ID</td>
-          <td class="uuid" id="siteId"></td>
-        </tr>
-        <tr>
-          <td class="label">Engagement ID</td>
-          <td class="uuid" id="engagementId"></td>
-        </tr>
-      </table>
-    </div>
+    <p>Click to copy value</p>
+    <table id="info">
+      <tr>
+        <td class="label">Visitor ID</td>
+        <td class="uuid" id="visitorId"></td>
+      </tr>
+      <tr>
+        <td class="label">Site ID</td>
+        <td class="uuid" id="siteId"></td>
+      </tr>
+      <tr>
+        <td class="label">Engagement ID</td>
+        <td class="uuid" id="engagementId">-</td>
+      </tr>
+    </table>
     <h1>Inputs</h1>
     <form>
       <label for="normal">Normal:</label><br>
@@ -40,8 +39,9 @@
       <label for="disabled">Disabled:</label><br>
       <input type="text" id="disabled" class="sm_cobrowsing_disabled_field" name="disabled" value=""><br>
     </form>
-    <h1>Cobrowsing code</h1>
-    <button onclick="document.body.appendChild(document.createElement('sm-visitor-code'))">Show</button>
+    <h1>Visitor code</h1>
+    <p>Click to copy value</p>
+    <p id="visitorCode">-</p>
     <h1>Update custom attributes</h1>
     <textarea id="updateInformation" rows="4" cols="50"></textarea>
     <button onclick="onUpdateInformation('replace')">Replace</button>

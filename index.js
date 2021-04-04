@@ -26,6 +26,7 @@ const boot = () => {
   copyOnClick('siteId');
   copyOnClick('visitorId');
   copyOnClick('engagementId');
+  copyOnClick('visitorCode');
 
   getGlia().then(glia => {
     setInfoValue('siteId', glia.getSiteId());
@@ -41,6 +42,11 @@ const boot = () => {
 
     glia.addEventListener(glia.EVENTS.ENGAGEMENT_START, onEngagementStart);
     glia.addEventListener(glia.EVENTS.ENGAGEMENT_END, onEngagementEnd);
+
+    glia.omnibrowse.getVisitorCode().then(visitorCodeResponse => {
+      const element = document.getElementById('visitorCode');
+      element.innerText = visitorCodeResponse.code;
+    });
   });
 };
 
