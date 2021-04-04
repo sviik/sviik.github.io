@@ -1,4 +1,7 @@
 
+const getGlia = () => {
+  return sm.getApi({version: 'v1'});
+}
 
 const setInfoValue = (elementId, value) => {
   const element = document.getElementById(elementId);
@@ -12,12 +15,19 @@ const copyOnClick = elementId => {
   });
 };
 
+const onUpdateInformation = customAttributesUpdateMethod => {
+  const customAttributes = JSON.parse(document.getElementById('updateInformation').value);
+  getGlia().then(glia => {
+    glia.updateInformation({customAttributes, customAttributesUpdateMethod});
+  });
+};
+
 const boot = () => {
   copyOnClick('siteId');
   copyOnClick('visitorId');
   copyOnClick('engagementId');
 
-  sm.getApi({version: 'v1'}).then(glia => {
+  getGlia().then(glia => {
     setInfoValue('siteId', glia.getSiteId());
     setInfoValue('visitorId', glia.getVisitorId());
 

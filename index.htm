@@ -42,6 +42,10 @@
     </form>
     <h1>Cobrowsing code</h1>
     <button onclick="document.body.appendChild(document.createElement('sm-visitor-code'))">Show</button>
+    <h1>Update custom attributes</h1>
+    <textarea id="updateInformation" rows="4" cols="50"></textarea>
+    <button onclick="onUpdateInformation('replace')">Replace</button>
+    <button onclick="onUpdateInformation('merge')">Merge</button>
   </div>
 </body>
 </html>
