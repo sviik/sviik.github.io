@@ -50,4 +50,19 @@ const boot = () => {
   });
 };
 
+const externalSessionId = (new URLSearchParams(window.location.search)).get('external_session_id');
+window.history.replaceState({}, document.title, '/');
+
+window.navigateToFlashFm = () => {
+  const flashFmUrl = 'https://flashfm.tumblr.com';
+  const href = externalSessionId ? `${flashFmUrl}?external_session_id=${externalSessionId}` : flashFmUrl;
+  window.location.href = href;
+}
+
+window.getGliaContext = () => {
+  return {
+    sessionId: externalSessionId
+  };
+};
+
 window.addEventListener('load', boot);
