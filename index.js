@@ -10,9 +10,11 @@ const setInfoValue = (elementId, value) => {
 
 const copyOnClick = elementId => {
   const element = document.getElementById(elementId);
-  element.addEventListener('click', () => {
-    navigator.clipboard.writeText(element.innerText);
-  });
+  if (element) {
+    element.addEventListener('click', () => {
+      navigator.clipboard.writeText(element.innerText);
+    });
+  }
 };
 
 const onUpdateInformation = customAttributesUpdateMethod => {
@@ -52,12 +54,6 @@ const boot = () => {
 
 const externalSessionId = (new URLSearchParams(window.location.search)).get('external_session_id');
 window.history.replaceState({}, document.title, '/');
-
-window.navigateToFlashFm = () => {
-  const flashFmUrl = 'https://flashfm.tumblr.com';
-  const href = externalSessionId ? `${flashFmUrl}?external_session_id=${externalSessionId}` : flashFmUrl;
-  window.location.href = href;
-}
 
 window.getGliaContext = () => {
   return {
