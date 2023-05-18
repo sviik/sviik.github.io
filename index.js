@@ -53,7 +53,6 @@ const boot = () => {
 };
 
 const externalSessionId = (new URLSearchParams(window.location.search)).get('external_session_id');
-window.history.replaceState({}, document.title, '/');
 
 window.getGliaContext = () => {
   return {
