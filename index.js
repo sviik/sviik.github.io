@@ -8,11 +8,20 @@ const setInfoValue = (elementId, value) => {
   element.innerText = value;
 };
 
-const copyOnClick = elementId => {
+const copyElementTextOnClick = elementId => {
   const element = document.getElementById(elementId);
   if (element) {
     element.addEventListener('click', () => {
       navigator.clipboard.writeText(element.innerText);
+    });
+  }
+};
+
+const copyOnClick = (elementId, getValue) => {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.addEventListener('click', () => {
+      navigator.clipboard.writeText(getValue());
     });
   }
 };
@@ -25,10 +34,11 @@ const onUpdateInformation = customAttributesUpdateMethod => {
 };
 
 const boot = () => {
-  copyOnClick('siteId');
-  copyOnClick('visitorId');
-  copyOnClick('engagementId');
-  copyOnClick('visitorCode');
+  copyElementTextOnClick('siteId');
+  copyElementTextOnClick('visitorId');
+  copyElementTextOnClick('engagementId');
+  copyElementTextOnClick('visitorCode');
+  copyOnClick('accessToken', () => sm.accessToken)
 
   getGlia().then(glia => {
     setInfoValue('siteId', glia.getSiteId());

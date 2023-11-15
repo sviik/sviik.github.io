@@ -16,8 +16,7 @@
 <body>
   <div class="content">
     <h1>Prod US Siim</h1>
-    <h2>Info</h2>
-    <p>Click to copy value</p>
+    <h2>Info (click on value to copy)</h2>
     <table id="info">
       <tr>
         <td class="label">Visitor ID</td>
@@ -30,6 +29,14 @@
       <tr>
         <td class="label">Engagement ID</td>
         <td class="value" id="engagementId">-</td>
+      </tr>
+      <tr>
+        <td class="label">Visitor code</td>
+        <td class="value" id="visitorCode">-</td>
+      </tr>
+      <tr>
+        <td class="label">Access Token</td>
+        <td class="value" id="accessToken">[access-token]</td>
       </tr>
     </table>
     <h2>Inputs for testing Cobra</h2>
@@ -47,9 +54,6 @@
         </div>
       </div><br>
     </form>
-    <h2>Visitor code</h2>
-    <p>Click to copy value</p>
-    <p id="visitorCode" class="value">-</p>
     <h2>Update custom attributes</h2>
     <textarea id="updateInformation" rows="4" cols="50">{"key": "value"}</textarea>
     <button onclick="onUpdateInformation('replace')">Replace</button>
