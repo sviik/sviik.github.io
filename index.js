@@ -47,6 +47,7 @@ const boot = () => {
   copyElementTextOnClick('siteId');
   copyElementTextOnClick('visitorId');
   copyElementTextOnClick('engagementId');
+  copyElementTextOnClick('operatorId');
   copyElementTextOnClick('visitorCode');
   copyOnClick('accessToken', () => sm.accessToken)
   document.getElementById('updateInformation').value = defaultVisitorInformation;
@@ -58,10 +59,12 @@ const boot = () => {
 
     const onEngagementStart = engagement => {
       setInfoValue('engagementId', engagement.engagementId);
+      setInfoValue('operatorId', engagement.operator.id);
     };
 
     const onEngagementEnd = engagement => {
       setInfoValue('engagementId', '');
+      setInfoValue('operatorId', '');
     };
 
     glia.addEventListener(glia.EVENTS.ENGAGEMENT_START, onEngagementStart);
