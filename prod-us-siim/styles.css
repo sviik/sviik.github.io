@@ -2,3 +2,9 @@
 body {
   background-color: #F18D9E;
 }
+
+.value {
+  color: #FFFFFF;
+  font-weight: 900;
+  cursor: pointer;
+}
