@@ -21,10 +21,10 @@ label {
 
 .value {
   color: #800000;
+  font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
   font-weight: 900;
   cursor: pointer;
 }
-
 .content {
   margin-left: 5%;
   margin-top: 5%;
