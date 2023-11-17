@@ -33,12 +33,24 @@ const onUpdateInformation = customAttributesUpdateMethod => {
   });
 };
 
+const defaultVisitorInformation = `{
+  "name": "new name",
+  "phone": "+155555555",
+  "email": "example@example.com",
+  "note": "new note",
+  "customAttributes": {
+    "key": "value"
+  }
+}`;
+
 const boot = () => {
   copyElementTextOnClick('siteId');
   copyElementTextOnClick('visitorId');
   copyElementTextOnClick('engagementId');
   copyElementTextOnClick('visitorCode');
   copyOnClick('accessToken', () => sm.accessToken)
+  document.getElementById('updateInformation').value = defaultVisitorInformation;
+
 
   getGlia().then(glia => {
     setInfoValue('siteId', glia.getSiteId());
@@ -60,6 +72,7 @@ const boot = () => {
       element.innerText = visitorCodeResponse.code;
     });
   });
+
 };
 
 const externalSessionId = (new URLSearchParams(window.location.search)).get('external_session_id');
