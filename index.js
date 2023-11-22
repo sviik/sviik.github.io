@@ -81,7 +81,7 @@ const boot = () => {
         const queueEl = document.createElement('li');
         queueEl.innerText = `${name} - ${status}`;
         queueEl.addEventListener('click', _event => {
-          glia.queueForEngagement('text');
+          glia.queueForEngagement('text', {queueId: id});
         });
 
         queuesEl.append(queueEl);
