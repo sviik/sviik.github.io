@@ -1,8 +1,4 @@
 
-const getGlia = () => {
-  return sm.getApi({version: 'v1'});
-}
-
 const setInfoValue = (elementId, value) => {
   const element = document.getElementById(elementId);
   element.innerText = value;
@@ -53,7 +49,7 @@ const boot = () => {
   document.getElementById('updateInformation').value = defaultVisitorInformation;
 
 
-  getGlia().then(glia => {
+  sm.getApi({version: 'v1'}).then(glia => {
     setInfoValue('siteId', glia.getSiteId());
     setInfoValue('visitorId', glia.getVisitorId());
 
@@ -74,8 +70,24 @@ const boot = () => {
       const element = document.getElementById('visitorCode');
       element.innerText = visitorCodeResponse.code;
     });
-  });
 
+    glia.getQueues().then(queues => {
+      const queuesEl = document.getElementById('queues');
+      queues.forEach(queue => {
+        const id = queue.id;
+        const name = queue.name;
+        const status = queue.state.status;
+
+        const queueEl = document.createElement('li');
+        queueEl.innerText = `${name} - ${status}`;
+        queueEl.addEventListener('click', _event => {
+          glia.queueForEngagement('text');
+        });
+
+        queuesEl.append(queueEl);
+      });
+    });
+  });
 };
 
 const externalSessionId = (new URLSearchParams(window.location.search)).get('external_session_id');
