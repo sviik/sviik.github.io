@@ -24,7 +24,7 @@ const copyOnClick = (elementId, getValue) => {
 
 const onUpdateInformation = customAttributesUpdateMethod => {
   const information = JSON.parse(document.getElementById('updateInformation').value);
-  getGlia().then(glia => {
+  sm.getApi({version: 'v1'}).then(glia => {
     glia.updateInformation({...information, customAttributesUpdateMethod});
   });
 };
