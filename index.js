@@ -1,4 +1,16 @@
 
+const openNewTab = () => {
+  const loc = window.location;
+  const href = `https://${loc.host}/${loc.pathname}?color=white`;
+  window.open(href, '_blank').focus();
+};
+
+const maybeSetBackgroundColor = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const color = urlParams.get('color');
+  if (color) document.body.style.backgroundColor = color;
+};
+
 const setInfoValue = (elementId, value) => {
   const element = document.getElementById(elementId);
   element.innerText = value;
@@ -40,6 +52,8 @@ const defaultVisitorInformation = `{
 }`;
 
 const boot = () => {
+  maybeSetBackgroundColor();
+
   copyElementTextOnClick('siteId');
   copyElementTextOnClick('visitorId');
   copyElementTextOnClick('engagementId');
@@ -47,7 +61,6 @@ const boot = () => {
   copyElementTextOnClick('visitorCode');
   copyOnClick('accessToken', () => sm.accessToken)
   document.getElementById('updateInformation').value = defaultVisitorInformation;
-
 
   sm.getApi({version: 'v1'}).then(glia => {
     setInfoValue('siteId', glia.getSiteId());
