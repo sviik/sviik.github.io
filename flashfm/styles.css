@@ -1,0 +1,33 @@
+
+body {
+  background-color: #c7bb75;
+  color: #060911;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+input {
+  width: 150px;
+  padding-top: 5px;
+}
+
+button {
+  width: 150px;
+}
+
+label {
+  padding-top: 5px;
+}
+
+.value {
+  color: #800000;
+  font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
+  font-weight: 900;
+  cursor: pointer;
+}
+.content {
+  margin-left: 5%;
+  margin-top: 5%;
+  height: 100%;
+  max-width: 500px;
+}

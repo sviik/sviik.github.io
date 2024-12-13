@@ -1,0 +1,71 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>sviik test site</title>
+
+  <script src="index.js"></script>
+  <script src="//api.beta.glia.com/salemove_integration.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="content">
+    <h1>FlashFM beta</h1>
+    <h2>Info (click on value to copy)</h2>
+    <table id="info">
+      <tr>
+        <td class="label">Visitor ID</td>
+        <td class="value" id="visitorId">-</td>
+      </tr>
+      <tr>
+        <td class="label">Site ID</td>
+        <td class="value" id="siteId">-</td>
+      </tr>
+      <tr>
+        <td class="label">Engagement ID</td>
+        <td class="value" id="engagementId">-</td>
+      </tr>
+      <tr>
+        <td class="label">Operator ID</td>
+        <td class="value" id="operatorId">-</td>
+      </tr>
+      <tr>
+        <td class="label">Visitor code</td>
+        <td class="value" id="visitorCode">-</td>
+      </tr>
+      <tr>
+        <td class="label">Access Token</td>
+        <td class="value" id="accessToken">[access-token]</td>
+      </tr>
+    </table>
+    <h2>Queues (click to enqueue)</h2>
+    <ul id="queues"></ul>
+    <h2>Inputs for testing Cobra</h2>
+    <form>
+      <label for="normal">Normal:</label><br>
+      <input type="text" id="normal" name="normal" value=""><br>
+      <label for="disabled">Disabled:</label><br>
+      <input type="text" id="disabled" class="sm_cobrowsing_disabled_field" name="disabled" value=""><br>
+      <label for="masked">Masked:</label><br>
+      <input type="text" id="masked" class="sm_cobrowsing_masked_field" name="masked" value=""><br>
+      <label for="masked2">Masked and disabled by parent:</label><br>
+      <div class="sm_cobrowsing_masked_field sm_cobrowsing_disabled_field row">
+        <div>
+          <input type="text" id="masked2" class="sm_cobrowsing_disabled_field" value="">
+        </div>
+      </div><br>
+    </form>
+    <h2>Update visitor information</h2>
+    <textarea id="updateInformation" rows="10" cols="50"></textarea>
+    <button onclick="onUpdateInformation('replace')">Replace</button>
+    <button onclick="onUpdateInformation('merge')">Merge</button>
+
+    <h2>Other</h2>
+    <a onclick="openNewTab()">Open new tab</a>
+  </div>
+</body>
+</html>
