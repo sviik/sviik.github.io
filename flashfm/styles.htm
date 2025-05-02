@@ -1,40 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dynamic Style and Element</title>
+    <title>Dynamic Style and Custom Element</title>
     <script src="//api.beta.glia.com/salemove_integration.js"></script>
 </head>
 <body>
     <button onclick="addElementAndStyle()">Click me!</button>
 
     <script>
+        // Define custom element
+        class DynamicElement extends HTMLElement {
+            constructor() {
+                super();
+                this.textContent = 'This is a custom element!';
+            }
+        }
+        
+        // Register custom element
+        customElements.define('dynamic-element', DynamicElement);
+
+        let styleAdded = false;
+
         function addElementAndStyle() {
-            // Create and add style element
-            const styleElement = document.createElement('style');
-            styleElement.textContent = `
-                .dynamic-element {
-                    background-color: #ff9900;
-                    padding: 20px;
-                    margin: 20px;
-                    border-radius: 10px;
-                    color: white;
-                    font-family: Arial, sans-serif;
-                    font-size: 18px;
-                    text-align: center;
-                    animation: fadeIn 0.5s ease-in;
-                }
+            // Add style element only if it hasn't been added yet
+            if (!styleAdded) {
+                const styleElement = document.createElement('style');
+                styleElement.textContent = `
+                    dynamic-element {
+                        display: block;
+                        background-color: #ff9900;
+                        padding: 20px;
+                        margin: 20px;
+                        border-radius: 10px;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        font-size: 18px;
+                        text-align: center;
+                        animation: fadeIn 0.5s ease-in;
+                    }
 
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-            `;
-            document.head.appendChild(styleElement);
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(styleElement);
+                styleAdded = true;
+            }
 
-            // Create and add new element
-            const newElement = document.createElement('div');
-            newElement.className = 'dynamic-element';
-            newElement.textContent = 'This element was created dynamically!';
+            // Create and add new custom element
+            const newElement = document.createElement('dynamic-element');
             document.body.appendChild(newElement);
         }
     </script>
