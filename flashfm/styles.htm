@@ -3,6 +3,7 @@
 <head>
     <title>Dynamic Style and Custom Element</title>
     <script src="//api.beta.glia.com/salemove_integration.js"></script>
+    <style id="dynamic-styles"></style>
 </head>
 <body>
     <button onclick="addElementAndStyle()">Click me!</button>
@@ -12,19 +13,34 @@
         class DynamicElement extends HTMLElement {
             constructor() {
                 super();
-                this.textContent = 'This is a custom element!';
+                this.textContent = this.getAttribute('message') || 'This is a custom element!';
+            }
+
+            connectedCallback() {
+                console.log('Custom element added to page.');
+            }
+
+            static get observedAttributes() {
+                return ['message'];
+            }
+
+            attributeChangedCallback(name, oldValue, newValue) {
+                if (name === 'message') {
+                    this.textContent = newValue;
+                }
             }
         }
         
         // Register custom element
         customElements.define('dynamic-element', DynamicElement);
 
-        let styleAdded = false;
+        let stylesAdded = false;
+        let counter = 1;
 
         function addElementAndStyle() {
-            // Add style element only if it hasn't been added yet
-            if (!styleAdded) {
-                const styleElement = document.createElement('style');
+            // Add styles if they haven't been added yet
+            if (!stylesAdded) {
+                const styleElement = document.getElementById('dynamic-styles');
                 styleElement.textContent = `
                     dynamic-element {
                         display: block;
@@ -44,12 +60,12 @@
                         to { opacity: 1; }
                     }
                 `;
-                document.head.appendChild(styleElement);
-                styleAdded = true;
+                stylesAdded = true;
             }
 
             // Create and add new custom element
             const newElement = document.createElement('dynamic-element');
+            newElement.setAttribute('message', `Custom element #${counter++}`);
             document.body.appendChild(newElement);
         }
     </script>
