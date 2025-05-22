@@ -5,6 +5,12 @@ const openNewTab = () => {
   window.open(href, '_blank').focus();
 };
 
+const navigateToOtherPage = () => {
+  const loc = window.location;
+  const href = `https://${loc.host}/${loc.pathname}?color=white`;
+  window.location.href = href;
+};
+
 const maybeSetBackgroundColor = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const color = urlParams.get('color');
