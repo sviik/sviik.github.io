@@ -40,6 +40,14 @@ const copyOnClick = (elementId, getValue) => {
   }
 };
 
+const getJwtPayload = (token) => {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return {};
+  }
+};
+
 const onUpdateInformation = customAttributesUpdateMethod => {
   const information = JSON.parse(document.getElementById('updateInformation').value);
   sm.getApi({version: 'v1'}).then(glia => {
@@ -64,6 +72,7 @@ const boot = () => {
   copyElementTextOnClick('visitorId');
   copyElementTextOnClick('engagementId');
   copyElementTextOnClick('interactionId');
+  copyElementTextOnClick('accountId');
   copyElementTextOnClick('operatorId');
   copyElementTextOnClick('visitorCode');
   copyOnClick('accessToken', () => sm.accessToken)
@@ -72,6 +81,9 @@ const boot = () => {
   sm.getApi({version: 'v1'}).then(glia => {
     setInfoValue('siteId', glia.getSiteId());
     setInfoValue('visitorId', glia.getVisitorId());
+
+    const payload = getJwtPayload(sm.accessToken);
+    setInfoValue('accountId', payload.account_id || '-');
 
     const onEngagementStart = engagement => {
       setInfoValue('engagementId', engagement.engagementId);
