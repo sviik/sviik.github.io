@@ -1,0 +1,463 @@
+<!--
+  Test page for launching OmniBrowse against various Glia environments.
+  Selecting an environment auto-fills Host and Site ID; both can be overridden.
+-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>OmniBrowse Launcher</title>
+  <style>
+    :root {
+      --bg: #f7f7f8;
+      --surface: #ffffff;
+      --border: #e3e4e8;
+      --border-strong: #c8cad0;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.4 var(--ui);
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 24px 20px;
+    }
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 20px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+    }
+    .form {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 12px 14px;
+      align-items: center;
+    }
+    label {
+      color: var(--muted);
+      font-weight: 500;
+      text-align: right;
+    }
+    input[type="text"], input[type="password"], select {
+      width: 100%;
+      height: 34px;
+      padding: 0 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      font: 13px var(--mono);
+    }
+    select {
+      font: 13px var(--ui);
+      cursor: pointer;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--accent);
+      cursor: pointer;
+      justify-self: start;
+    }
+    .divider {
+      grid-column: 1 / -1;
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+    button {
+      height: 34px;
+      padding: 0 14px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font: 500 13px var(--ui);
+      cursor: pointer;
+      grid-column: 2;
+    }
+    button:hover { background: var(--accent-hover); }
+    button:disabled {
+      background: var(--border-strong);
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    button:disabled:hover { background: var(--border-strong); }
+    .input-row {
+      display: flex;
+      gap: 6px;
+    }
+    .input-row input { flex: 1; }
+    .toggle-btn {
+      height: 34px;
+      padding: 0 10px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+      font: 500 12px var(--ui);
+      border-radius: 6px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .toggle-btn:hover { background: var(--bg); }
+    .error {
+      grid-column: 2;
+      font-size: 12px;
+      color: #b91c1c;
+    }
+    .error:empty { display: none; }
+    .hint {
+      grid-column: 2;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    kbd {
+      font: 11px/1 var(--mono);
+      background: var(--bg);
+      border: 1px solid var(--border-strong);
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 2px 5px;
+      color: var(--text);
+    }
+    .iframe-wrap {
+      display: none;
+      width: 100%;
+      padding: 0 24px 24px;
+    }
+    .iframe-wrap.active { display: block; }
+    iframe {
+      width: 100%;
+      height: 1500px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    details.snippet {
+      grid-column: 2;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.snippet summary {
+      cursor: pointer;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      user-select: none;
+    }
+    details.snippet[open] summary {
+      border-bottom: 1px solid var(--border);
+    }
+    details.snippet pre {
+      margin: 0;
+      padding: 12px;
+      font: 12px/1.5 var(--mono);
+      background: var(--bg);
+      overflow-x: auto;
+    }
+    details.snippet .copy-btn {
+      height: 28px;
+      margin: 0 12px 12px;
+      padding: 0 10px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+      font: 500 12px var(--ui);
+      border-radius: 4px;
+    }
+    details.snippet .copy-btn:hover {
+      background: var(--bg);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>OmniBrowse Launcher</h1>
+  <div class="card">
+    <div class="form">
+      <label for="environment">Environment</label>
+      <select id="environment" onchange="environmentChanged()"></select>
+
+      <label for="host">Host</label>
+      <input type="text" id="host" onchange="syncParam('host')"/>
+
+      <label for="siteId">Site ID</label>
+      <input type="text" id="siteId" onchange="syncParam('siteId')"/>
+
+      <label for="apiToken">API Token</label>
+      <div class="input-row">
+        <input type="password" id="apiToken" oninput="updateLaunchButtons()"/>
+        <button type="button" class="toggle-btn" onclick="toggleApiTokenVisibility(this)">Show</button>
+      </div>
+
+      <label for="inIframe">In iframe</label>
+      <input type="checkbox" id="inIframe"/>
+
+      <div class="divider"></div>
+
+      <label for="externalId">External ID</label>
+      <input type="text" id="externalId" onkeypress="launch(event)" oninput="onExternalIdChange()"/>
+      <details class="snippet">
+        <summary>Set this on the visitor's page</summary>
+        <pre><code id="externalIdSnippet"></code></pre>
+        <button type="button" class="copy-btn" onclick="copyExternalIdSnippet(this)">Copy</button>
+      </details>
+      <button id="launchExternalIdBtn" onclick="launchWithExternalId();" disabled>Launch with external ID</button>
+      <div id="externalIdError" class="error"></div>
+
+      <div class="divider"></div>
+
+      <label for="visitorCode">Visitor code</label>
+      <input type="text" id="visitorCode" onkeypress="launch(event)" oninput="onVisitorCodeChange()"/>
+      <button id="launchVisitorCodeBtn" onclick="launchWithVisitorCode();" disabled>Launch with visitor code</button>
+      <div id="visitorCodeError" class="error"></div>
+      <div class="hint">Retrieve by pressing <kbd>Ctrl</kbd>+<kbd>Y</kbd> as a visitor</div>
+    </div>
+  </div>
+</div>
+<div class="iframe-wrap" id="iframeWrap">
+  <iframe id="obIframe" allow="camera *; microphone *"></iframe>
+</div>
+
+<script type='text/javascript'>
+const ENVIRONMENTS = {
+  acceptance: {label: 'Acceptance',    defaultHost: 'omnibrowse.at.samo.io',    defaultSiteId: 'b9426425-e183-4f02-8339-ada61bee54f3'},
+  beta:       {label: 'Beta',          defaultHost: 'omnibrowse.beta.glia.com', defaultSiteId: '773afeff-d772-4ea7-b79a-6b97add9567c'},
+  production: {label: 'Production US', defaultHost: 'omnibrowse.glia.com',      defaultSiteId: '346dd757-542e-47ca-b390-f00271fa27e7'},
+  'prod-eu':  {label: 'Production EU', defaultHost: 'omnibrowse.glia.eu',       defaultSiteId: '83c8ab0c-a582-4d4e-8821-80ccb68c4740'}
+};
+
+const PARAMS = {
+  environment: 'environment',
+  host: 'omnibrowse_url',
+  siteId: 'site_id',
+  externalId: 'external_id',
+  visitorCode: 'visitor_code'
+};
+
+let externalIdAutoGenerated = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+  populateEnvironments();
+  setEnvironmentValue(getQueryParams());
+  restoreField('externalId');
+  restoreField('visitorCode');
+  setQueryParam('api_token', '');
+  if (!getElementValue('externalId')) {
+    setElementValue('externalId', generateExternalId());
+    externalIdAutoGenerated = true;
+    syncParam('externalId');
+  }
+  updateExternalIdSnippet();
+  updateLaunchButtons();
+});
+
+function populateEnvironments() {
+  const sel = document.getElementById('environment');
+  for (const [key, {label}] of Object.entries(ENVIRONMENTS)) {
+    sel.appendChild(new Option(label, key));
+  }
+}
+
+function setEnvironmentValue(params) {
+  const environment = params.get(PARAMS.environment);
+  if (environment && ENVIRONMENTS[environment]) {
+    const env = ENVIRONMENTS[environment];
+    const host = params.get(PARAMS.host) || env.defaultHost;
+    const siteId = params.get(PARAMS.siteId) || env.defaultSiteId;
+    setElementValue('environment', environment);
+    setEnvironment(host, siteId);
+  } else {
+    environmentChanged();
+  }
+}
+
+function restoreField(fieldId) {
+  const value = getQueryParams().get(PARAMS[fieldId]);
+  if (value) setElementValue(fieldId, value);
+}
+
+function launch(e) {
+  if (e.key !== 'Enter') return;
+  if (e.target.id === 'externalId') launchWithExternalId();
+  if (e.target.id === 'visitorCode') launchWithVisitorCode();
+}
+
+function environmentChanged() {
+  setElementValue('apiToken', null);
+  setElementValue('visitorCode', null);
+  if (externalIdAutoGenerated) {
+    setElementValue('externalId', generateExternalId());
+    syncParam('externalId');
+  }
+  syncParam('visitorCode');
+  syncParam('environment');
+  updateExternalIdSnippet();
+  updateLaunchButtons();
+
+  const {defaultHost, defaultSiteId} = ENVIRONMENTS[getElementValue('environment')];
+  setEnvironment(defaultHost, defaultSiteId);
+}
+
+function syncParam(fieldId) {
+  setQueryParam(PARAMS[fieldId], getElementValue(fieldId));
+}
+
+function setEnvironment(host, siteId) {
+  setElementValue('host', host);
+  setElementValue('siteId', siteId);
+  syncParam('host');
+  syncParam('siteId');
+}
+
+function setQueryParam(key, value) {
+  const params = new URLSearchParams(location.search);
+  if (!value) params.delete(key);
+  else params.set(key, value);
+  history.pushState(null, '', '?' + params);
+}
+
+function getQueryParams() {
+  return new URLSearchParams(location.search);
+}
+
+function launchWithExternalId() {
+  launchOmnibrowse('external_id', getElementValue('externalId'), 'externalIdError');
+}
+
+function launchWithVisitorCode() {
+  launchOmnibrowse('visit_id', getElementValue('visitorCode'), 'visitorCodeError');
+}
+
+async function launchOmnibrowse(idType, id, errorId) {
+  const errorEl = document.getElementById(errorId);
+  errorEl.textContent = '';
+
+  const host = getHostValue();
+  const siteId = getElementValue('siteId');
+  const inIframe = document.getElementById('inIframe').checked;
+  // Safari blocks window.open() called inside an await, so call it sync first.
+  const windowRef = inIframe ? null : window.open();
+
+  try {
+    const launchToken = await fetchLaunchToken(host);
+    const url = `${host}/auth/${launchToken}/${siteId}/${idType}/${id}`;
+    if (inIframe) {
+      document.getElementById('iframeWrap').classList.add('active');
+      document.getElementById('obIframe').src = url;
+    } else {
+      windowRef.location = url;
+    }
+  } catch (err) {
+    windowRef?.close();
+    errorEl.textContent = err.message || String(err);
+    console.error(err);
+  }
+}
+
+async function fetchLaunchToken(host) {
+  const res = await fetch(host + '/auth/token', {
+    method: 'POST',
+    headers: {'Content-type': 'application/x-www-form-urlencoded'},
+    body: 'api_token=' + getElementValue('apiToken')
+  });
+  if (!res.ok) throw new Error(`Auth token request failed: ${res.status}`);
+  return (await res.json()).launch_token;
+}
+
+function generateExternalId() {
+  return Math.random().toString(36).slice(2, 8).padEnd(6, '0');
+}
+
+function onExternalIdChange() {
+  externalIdAutoGenerated = false;
+  syncParam('externalId');
+  updateExternalIdSnippet();
+  updateLaunchButtons();
+}
+
+function onVisitorCodeChange() {
+  syncParam('visitorCode');
+  updateLaunchButtons();
+}
+
+function updateExternalIdSnippet() {
+  const value = getElementValue('externalId') || '';
+  document.getElementById('externalIdSnippet').textContent =
+    `sm.getApi({version: 'v1'}).then(glia => {\n  glia.updateInformation({externalId: '${value}'});\n});`;
+}
+
+function copyExternalIdSnippet(btn) {
+  navigator.clipboard.writeText(document.getElementById('externalIdSnippet').textContent);
+  if (btn.dataset.label) return;
+  btn.dataset.label = btn.textContent;
+  btn.textContent = 'Copied';
+  setTimeout(() => {
+    btn.textContent = btn.dataset.label;
+    delete btn.dataset.label;
+  }, 1200);
+}
+
+function toggleApiTokenVisibility(btn) {
+  const input = document.getElementById('apiToken');
+  const hidden = input.type === 'password';
+  input.type = hidden ? 'text' : 'password';
+  btn.textContent = hidden ? 'Hide' : 'Show';
+}
+
+function updateLaunchButtons() {
+  const hasToken = !!getElementValue('apiToken');
+  const hasExt = !!getElementValue('externalId');
+  const hasCode = !!getElementValue('visitorCode');
+
+  const extBtn = document.getElementById('launchExternalIdBtn');
+  extBtn.disabled = !hasToken || !hasExt;
+  extBtn.title = !hasToken ? 'Enter API Token' : !hasExt ? 'Enter External ID' : '';
+
+  const codeBtn = document.getElementById('launchVisitorCodeBtn');
+  codeBtn.disabled = !hasToken || !hasCode;
+  codeBtn.title = !hasToken ? 'Enter API Token' : !hasCode ? 'Enter Visitor Code' : '';
+}
+
+function getElementValue(id) {
+  const value = document.getElementById(id).value;
+  return value ? value.trim() : value;
+}
+
+function getHostValue() {
+  const value = getElementValue('host');
+  if (!value) return value;
+  return 'https://' + value.replace(/^https?:\/\//i, '');
+}
+
+function setElementValue(id, value) {
+  document.getElementById(id).value = value;
+}
+</script>
+</body>
+</html>
