@@ -62,7 +62,8 @@ const defaultVisitorInformation = `{
   "note": "new note",
   "customAttributes": {
     "key": "value"
-  }
+  },
+  "externalId": "abc123"
 }`;
 
 const boot = () => {
