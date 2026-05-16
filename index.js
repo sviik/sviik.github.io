@@ -1,53 +1,4 @@
 
-const openNewTab = () => {
-  const loc = window.location;
-  const href = `https://${loc.host}/${loc.pathname}?color=white`;
-  window.open(href, '_blank').focus();
-};
-
-const navigateToOtherPage = () => {
-  const loc = window.location;
-  const href = `https://${loc.host}/${loc.pathname}?color=white`;
-  window.location.href = href;
-};
-
-const maybeSetBackgroundColor = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const color = urlParams.get('color');
-  if (color) document.body.style.backgroundColor = color;
-};
-
-const setInfoValue = (elementId, value) => {
-  const element = document.getElementById(elementId);
-  element.innerText = value;
-};
-
-const copyElementTextOnClick = elementId => {
-  const element = document.getElementById(elementId);
-  if (element) {
-    element.addEventListener('click', () => {
-      navigator.clipboard.writeText(element.innerText);
-    });
-  }
-};
-
-const copyOnClick = (elementId, getValue) => {
-  const element = document.getElementById(elementId);
-  if (element) {
-    element.addEventListener('click', () => {
-      navigator.clipboard.writeText(getValue());
-    });
-  }
-};
-
-const getJwtPayload = (token) => {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
-    return {};
-  }
-};
-
 const onUpdateInformation = customAttributesUpdateMethod => {
   const information = JSON.parse(document.getElementById('updateInformation').value);
   sm.getApi({version: 'v1'}).then(glia => {
@@ -67,62 +18,7 @@ const defaultVisitorInformation = `{
 }`;
 
 const boot = () => {
-  maybeSetBackgroundColor();
-
-  copyElementTextOnClick('siteId');
-  copyElementTextOnClick('visitorId');
-  copyElementTextOnClick('engagementId');
-  copyElementTextOnClick('interactionId');
-  copyElementTextOnClick('accountId');
-  copyElementTextOnClick('operatorId');
-  copyElementTextOnClick('visitorCode');
-  copyOnClick('accessToken', () => sm.accessToken)
   document.getElementById('updateInformation').value = defaultVisitorInformation;
-
-  sm.getApi({version: 'v1'}).then(glia => {
-    setInfoValue('siteId', glia.getSiteId());
-    setInfoValue('visitorId', glia.getVisitorId());
-
-    const payload = getJwtPayload(sm.accessToken);
-    setInfoValue('accountId', payload.account_id || '-');
-
-    const onEngagementStart = engagement => {
-      setInfoValue('engagementId', engagement.engagementId);
-      setInfoValue('interactionId', engagement.interactionId);
-      setInfoValue('operatorId', engagement.operator.id);
-    };
-
-    const onEngagementEnd = engagement => {
-      setInfoValue('engagementId', '');
-      setInfoValue('interactionId', '');
-      setInfoValue('operatorId', '');
-    };
-
-    glia.addEventListener(glia.EVENTS.ENGAGEMENT_START, onEngagementStart);
-    glia.addEventListener(glia.EVENTS.ENGAGEMENT_END, onEngagementEnd);
-
-    glia.omnibrowse.getVisitorCode().then(visitorCodeResponse => {
-      const element = document.getElementById('visitorCode');
-      element.innerText = visitorCodeResponse.code;
-    });
-
-    glia.getQueues().then(queues => {
-      const queuesEl = document.getElementById('queues');
-      queues.forEach(queue => {
-        const id = queue.id;
-        const name = queue.name;
-        const status = queue.state.status;
-
-        const queueEl = document.createElement('li');
-        queueEl.innerText = `${name} - ${status}`;
-        queueEl.addEventListener('click', _event => {
-          glia.queueForEngagement('text', {queueId: id});
-        });
-
-        queuesEl.append(queueEl);
-      });
-    });
-  });
 };
 
 const externalSessionId = (new URLSearchParams(window.location.search)).get('external_session_id');

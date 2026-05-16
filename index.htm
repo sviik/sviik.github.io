@@ -1,79 +1,100 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>sviik test site</title>
-
-  <script src="index.js"></script>
-  <script src="//api.beta.glia.com/salemove_integration.js"></script>
-
-  <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sviik test pages</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .index-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .index-list li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.12s;
+    }
+    .index-list li a:hover {
+      background: var(--bg);
+      color: var(--accent);
+    }
+    .index-list li a .arrow {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .index-list li a .tag {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+  </style>
 </head>
 <body>
   <div class="content">
-    <h1>FlashFM beta</h1>
-    <h2>Info (click on value to copy)</h2>
-    <table id="info">
-      <tr>
-        <td class="label">Visitor ID</td>
-        <td class="value" id="visitorId">-</td>
-      </tr>
-      <tr>
-        <td class="label">Site ID</td>
-        <td class="value" id="siteId">-</td>
-      </tr>
-      <tr>
-        <td class="label">Account ID</td>
-        <td class="value" id="accountId">-</td>
-      </tr>
-      <tr>
-        <td class="label">Engagement ID</td>
-        <td class="value" id="engagementId">-</td>
-      </tr>
-      <tr>
-        <td class="label">Interaction ID</td>
-        <td class="value" id="interactionId">-</td>
-      </tr>
-      <tr>
-        <td class="label">Operator ID</td>
-        <td class="value" id="operatorId">-</td>
-      </tr>
-      <tr>
-        <td class="label">Visitor code</td>
-        <td class="value" id="visitorCode">-</td>
-      </tr>
-      <tr>
-        <td class="label">Access Token</td>
-        <td class="value" id="accessToken">[access-token]</td>
-      </tr>
-    </table>
-    <h2>Queues (click to enqueue)</h2>
-    <ul id="queues"></ul>
-    <h2>Inputs for testing Cobra</h2>
-    <form>
-      <label for="normal">Normal:</label><br>
-      <input type="text" id="normal" name="normal" value=""><br>
-      <label for="disabled">Disabled:</label><br>
-      <input type="text" id="disabled" class="sm_cobrowsing_disabled_field" name="disabled" value=""><br>
-      <label for="masked">Masked:</label><br>
-      <input type="text" id="masked" class="sm_cobrowsing_masked_field" name="masked" value=""><br>
-      <label for="masked2">Masked and disabled by parent:</label><br>
-      <div class="sm_cobrowsing_masked_field sm_cobrowsing_disabled_field row">
-        <div>
-          <input type="text" id="masked2" class="sm_cobrowsing_disabled_field" value="">
-        </div>
-      </div><br>
-    </form>
-    <h2>Update visitor information</h2>
-    <textarea id="updateInformation" rows="10" cols="50"></textarea>
-    <button onclick="onUpdateInformation('replace')">Replace</button>
-    <button onclick="onUpdateInformation('merge')">Merge</button>
-
-    <h2>Other</h2>
-    <a onclick="openNewTab()">Open new tab</a>
+    <h1>Test pages</h1>
+    <section>
+      <h2>Tools</h2>
+      <ul class="index-list">
+        <li>
+          <a href="omnibrowse/">
+            OmniBrowse Launcher
+            <span class="tag">omnibrowse</span>
+            <span class="arrow">→</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>Test pages</h2>
+      <ul class="index-list">
+        <li>
+          <a href="devspace/">
+            devspace
+            <span class="tag">devspace</span>
+            <span class="arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="flashfm/">
+            beta
+            <span class="tag">beta</span>
+            <span class="arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="prod-eu/">
+            prod-eu
+            <span class="tag">prod-eu</span>
+            <span class="arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="prod-us/">
+            prod-us
+            <span class="tag">prod-us</span>
+            <span class="arrow">→</span>
+          </a>
+        </li>
+      </ul>
+    </section>
   </div>
 </body>
 </html>
