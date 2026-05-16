@@ -1,5 +1,7 @@
 
-const onUpdateInformation = (customAttributesUpdateMethod, btn) => {
+import './custom_code.js';
+
+window.onUpdateInformation = (customAttributesUpdateMethod, btn) => {
   const information = JSON.parse(document.getElementById('updateInformation').value);
   const originalText = btn.textContent;
   btn.disabled = true;
