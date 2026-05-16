@@ -69,6 +69,12 @@
     let minimized = false;
     minimizeBtn.addEventListener('click', () => {
       minimized = !minimized;
+      const rect = panel.getBoundingClientRect();
+      if (panel.style.transform !== 'none') {
+        panel.style.transform = 'none';
+        panel.style.top = `${rect.top}px`;
+      }
+      if (!panel.style.width) panel.style.width = `${rect.width}px`;
       body.style.display = minimized ? 'none' : 'grid';
       handle.style.borderBottom = minimized ? 'none' : HANDLE_BORDER;
       minimizeBtn.textContent = minimized ? '+' : '−';
