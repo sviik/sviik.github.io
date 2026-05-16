@@ -177,11 +177,14 @@
       ['Transcript curl', buildCurl(e.interactionId, sm.accessToken), '[curl]'],
     ]));
 
-    glia.addEventListener(glia.EVENTS.ENGAGEMENT_END, () => update([
-      ['Engagement ID', ''],
-      ['Interaction ID', ''],
-      ['Operator ID', ''],
-      ['Transcript curl', '', '[curl]'],
-    ]));
+    glia.addEventListener(glia.EVENTS.ENGAGEMENT_END, () => {
+      update([
+        ['Engagement ID', ''],
+        ['Interaction ID', ''],
+        ['Operator ID', ''],
+        ['Transcript curl', '', '[curl]'],
+      ]);
+      glia.omnibrowse.getVisitorCode().then((r) => update([['Visitor code', r.code]]));
+    });
   });
 })();
