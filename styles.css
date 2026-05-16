@@ -139,6 +139,25 @@ button.primary:hover {
   border-color: var(--accent-hover);
 }
 
+button.success,
+button.success:hover {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+
+button.error,
+button.error:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
 .links {
   display: flex;
   flex-direction: column;
