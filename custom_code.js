@@ -156,6 +156,10 @@
 
   let body = createPanel(() => { body = null; });
 
+  ['Site ID', 'Visitor ID', 'Account ID', 'Visitor code',
+   'Engagement ID', 'Interaction ID', 'Operator ID', 'Access token', 'Transcript curl',
+  ].forEach(label => setRow(body, label, ''));
+
   sm.getApi({ version: 'v1' }).then((glia) => {
     const update = (rows) => {
       if (!body) return;
