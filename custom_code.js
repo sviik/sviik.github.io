@@ -67,7 +67,7 @@
     });
 
     let minimized = false;
-    minimizeBtn.addEventListener('click', () => {
+    const toggleMinimize = () => {
       minimized = !minimized;
       const rect = panel.getBoundingClientRect();
       if (panel.style.transform !== 'none') {
@@ -79,6 +79,11 @@
       handle.style.borderBottom = minimized ? 'none' : HANDLE_BORDER;
       minimizeBtn.textContent = minimized ? '+' : '−';
       minimizeBtn.setAttribute('aria-label', minimized ? 'Restore' : 'Minimize');
+    };
+    minimizeBtn.addEventListener('click', toggleMinimize);
+    handle.addEventListener('dblclick', (e) => {
+      if (actions.contains(e.target)) return;
+      toggleMinimize();
     });
 
     const actions = el('div', { display: 'flex', alignItems: 'center', gap: '2px' });
